@@ -3,7 +3,7 @@
 // @namespace    weather
 // @description  adds a fast map selector toolbar on the right side
 // @author       xrmb
-// @version      4
+// @version      5
 // @updateURL    https://raw.githubusercontent.com/xrmb/betterweather/main/maps-sidebar.user.js
 // @downloadURL  https://raw.githubusercontent.com/xrmb/betterweather/main/maps-sidebar.user.js
 // @match        https://weather.com/weather/radar/interactive/*
@@ -136,33 +136,35 @@
         sidebar.id = SIDEBAR_ID;
         Object.assign(sidebar.style, {
             position: 'fixed',
-            right: '12px',
-            top: '140px',
-            width: '60px',
+            right: '0px',
+            top: '56px',
+            width: '48px',
             zIndex: '2147483647',
             display: 'flex',
             flexDirection: 'column',
             gap: '8px'
         });
 
-        // remove native zoom/fullscreen/find-location controls and move search up to make room
-        ['Zoom In', 'Zoom Out', 'Enter fullscreen'].forEach(function(label) {
+        // remove native zoom/fullscreen/find-my-location controls and move search up to make room
+        ['Zoom In', 'Zoom Out', 'Enter fullscreen', 'Find my location'].forEach(function(label) {
             let btn = document.querySelector('button[aria-label="' + label + '"]');
             if (btn) btn.style.display = 'none';
         });
-        document.querySelectorAll('button[aria-label*="location" i], button[aria-label*="my location" i], button[title*="location" i]').forEach(function(btn) {
-            btn.style.display = 'none';
-        });
 
-        // align sidebar with the search button and place just below it
+        // move search button to the top-right corner and align sidebar beneath it
         let searchBtn = document.querySelector('button[aria-label="Search location"]');
         if (searchBtn) {
             let rect = searchBtn.getBoundingClientRect();
             if (rect.width > 0 && rect.height > 0) {
                 let searchContainer = searchBtn.closest('div.absolute');
-                if (searchContainer) searchContainer.style.top = '70px';
+                if (searchContainer) {
+                    searchContainer.style.top = '70px';
+                    searchContainer.style.paddingRight = '12px';
+                    searchContainer.style.justifyContent = 'flex-end';
+                    rect = searchBtn.getBoundingClientRect();
+                }
                 sidebar.style.right = (window.innerWidth - rect.right) + 'px';
-                sidebar.style.top = (rect.bottom + window.scrollY + 12) + 'px';
+                sidebar.style.top = (rect.bottom + window.scrollY + 8) + 'px';
             }
         }
 
@@ -175,8 +177,9 @@
             let item = document.createElement('div');
             Object.assign(item.style, {
                 cursor: 'pointer',
-                width: '50px',
-                height: '50px',
+                width: '48px',
+                height: '48px',
+                boxSizing: 'border-box',
                 borderRadius: '50%',
                 border: '2px solid #555',
                 background: '#252422',
