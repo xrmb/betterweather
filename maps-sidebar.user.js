@@ -3,7 +3,7 @@
 // @namespace    weather
 // @description  adds a fast map selector toolbar on the right side
 // @author       xrmb
-// @version      5
+// @version      6
 // @updateURL    https://raw.githubusercontent.com/xrmb/betterweather/main/maps-sidebar.user.js
 // @downloadURL  https://raw.githubusercontent.com/xrmb/betterweather/main/maps-sidebar.user.js
 // @match        https://weather.com/weather/radar/interactive/*
@@ -43,9 +43,16 @@
         return false;
     };
 
-    let isNav = function(btn) {
+    let isMenuButton = function(btn) {
         let text = (btn.innerText || btn.textContent || '').trim();
-        return text === 'Map menu' || text === 'Chevron Left' || text === 'Chevron Right';
+        let label = (btn.getAttribute('aria-label') || '').toLowerCase();
+        return /map menu/.test(label) || /^(map menu|layers)$/i.test(text);
+    };
+
+    let isNav = function(btn) {
+        if (isMenuButton(btn)) return true;
+        let text = (btn.innerText || btn.textContent || '').trim();
+        return text === 'Chevron Left' || text === 'Chevron Right';
     };
 
     let shortLabel = function(text) {
@@ -59,7 +66,7 @@
     };
 
     let findThumbnailForLabel = function(label) {
-        let thumbs = Array.from(document.querySelectorAll('span[aria-hidden="true"].rounded-full.bg-cover.bg-center'));
+        let thumbs = Array.from(document.querySelectorAll('span.rounded-full.bg-cover.bg-center'));
         for (let i = 0; i < thumbs.length; i++) {
             let btn = thumbs[i].closest('button');
             let t = btn ? (btn.innerText || btn.textContent || '').trim() : '';
@@ -81,10 +88,7 @@
     let openMapMenu = function(toolbar) {
         let container = findToolbarContainer(toolbar);
         if (!container) return false;
-        let menuBtn = Array.from(container.querySelectorAll('button')).filter(function(b) {
-            let t = (b.innerText || b.textContent || '').trim();
-            return t === 'Map menu';
-        })[0];
+        let menuBtn = Array.from(container.querySelectorAll('button')).filter(isMenuButton)[0];
         if (!menuBtn) return false;
         let pressed = menuBtn.getAttribute('aria-pressed');
         let label = menuBtn.getAttribute('aria-label') || '';
@@ -98,7 +102,7 @@
         if (!toolbar) return false;
 
         if (!openMapMenu(toolbar)) return false;
-        if (document.querySelectorAll('span[aria-hidden="true"].rounded-full.bg-cover.bg-center').length === 0) return false;
+        if (document.querySelectorAll('span.rounded-full.bg-cover.bg-center').length === 0) return false;
 
         let buttons = Array.from(toolbar.querySelectorAll('button'));
         if (buttons.length === 0) return false;
@@ -122,10 +126,7 @@
         if (oldSidebar) oldSidebar.remove();
 
         let container = findToolbarContainer(toolbar);
-        let menuBtn = container ? Array.from(container.querySelectorAll('button')).filter(function(b) {
-            let t = (b.innerText || b.textContent || '').trim();
-            return t === 'Map menu';
-        })[0] : null;
+        let menuBtn = container ? Array.from(container.querySelectorAll('button')).filter(isMenuButton)[0] : null;
         let menuLabel = menuBtn ? (menuBtn.getAttribute('aria-label') || '') : '';
         if (menuBtn && menuLabel.indexOf('Close') >= 0) menuBtn.click();
 
