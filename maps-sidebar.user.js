@@ -3,10 +3,11 @@
 // @namespace    weather
 // @description  adds a fast map selector toolbar on the right side
 // @author       xrmb
-// @version      7
+// @version      8
 // @updateURL    https://raw.githubusercontent.com/xrmb/betterweather/main/maps-sidebar.user.js
 // @downloadURL  https://raw.githubusercontent.com/xrmb/betterweather/main/maps-sidebar.user.js
 // @match        https://weather.com/weather/radar/interactive/*
+// @match        https://weather.com/*/radar*
 // @grant        none
 // ==/UserScript==
 

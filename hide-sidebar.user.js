@@ -5,8 +5,9 @@
 // @author       xrmb
 // @updateURL    https://raw.githubusercontent.com/xrmb/betterweather/main/hide-sidebar.user.js
 // @downloadURL  https://raw.githubusercontent.com/xrmb/betterweather/main/hide-sidebar.user.js
-// @version      3
+// @version      4
 // @match        https://weather.com/weather/radar/interactive/*
+// @match        https://weather.com/*/radar*
 // @grant        none
 // ==/UserScript==
 
