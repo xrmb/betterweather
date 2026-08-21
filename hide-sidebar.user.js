@@ -15,6 +15,7 @@
 
     let iv = 0;
     let done = 0;
+    let attempts = 300;
     let check = function()
     {
         if((done & 1) === 0)
@@ -50,7 +51,8 @@
             }
         }
 
-        if(done === (1 | 2 | 4))
+        attempts--;
+        if((done & 4) || attempts <= 0)
         {
             clearInterval(iv); iv = 0;
         }

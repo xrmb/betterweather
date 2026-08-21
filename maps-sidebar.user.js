@@ -3,7 +3,7 @@
 // @namespace    weather
 // @description  adds a fast map selector toolbar on the right side
 // @author       xrmb
-// @version      6
+// @version      7
 // @updateURL    https://raw.githubusercontent.com/xrmb/betterweather/main/maps-sidebar.user.js
 // @downloadURL  https://raw.githubusercontent.com/xrmb/betterweather/main/maps-sidebar.user.js
 // @match        https://weather.com/weather/radar/interactive/*
@@ -16,8 +16,8 @@
     const SIDEBAR_ID = 'weather-classic-sidebar';
     const TOOLBAR_SEL = '[role="toolbar"][aria-label="Map layer selector"]';
 
-    const classicMaps = ['radar', 'clouds', 'temperatures', 'feelsLike', 'dewPoint', 'precipPast24', 'snowPast24', 'windSpeed'];
-    const imgname = { temperatures: 'temps', dewPoint: 'dewpoint' };
+    const classicMaps = ['radar', 'clouds', 'temperatures', 'feelsLike', 'dewPoint', 'precipPast24', 'snowPast24', 'windSpeed', 'uvIndex', 'drivingDifficulty', 'satVis', 'satIR', 'satWV'];
+    const imgname = { temperatures: 'temps', dewPoint: 'dewpoint', satVis: 'satgoes16FullDiskVis', satIR: 'satgoes16FullDiskIR', satWV: 'satgoes16FullDiskWV' };
     const labelToMap = {
         'High-Res 6-Hr Radar': 'radar',
         'Long Range 24-Hr Radar': 'radar',
@@ -28,7 +28,12 @@
         'Dew Point': 'dewPoint',
         'Past 24-Hour Precipitation': 'precipPast24',
         'Past 24-Hour Snowfall': 'snowPast24',
-        'Wind Speed': 'windSpeed'
+        'Wind Speed': 'windSpeed',
+        'UV Index': 'uvIndex',
+        'Driving Difficulty': 'drivingDifficulty',
+        'Clouds (Visible Satellite)': 'satVis',
+        'Clouds (Infrared Satellite)': 'satIR',
+        'Water Vapor Satellite': 'satWV'
     };
 
     let iv = 0;
@@ -36,8 +41,9 @@
 
     let isPremium = function(btn) {
         let text = (btn.innerText || btn.textContent || '').trim();
-        if (/premium|locked/i.test(text)) return true;
+        if (/\bpremium\b|\blocked\b/i.test(text)) return true;
         if (btn.querySelector('svg[class*="text-amber-600"]')) return true;
+        if (btn.querySelector('[class*="bg-blue-600"]')) return true;
         let svgTitle = btn.querySelector('svg title');
         if (svgTitle && /locked|premium/i.test(svgTitle.textContent)) return true;
         return false;
