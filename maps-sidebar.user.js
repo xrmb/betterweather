@@ -3,7 +3,7 @@
 // @namespace    weather
 // @description  adds a fast map selector toolbar on the right side
 // @author       xrmb
-// @version      8
+// @version      9
 // @updateURL    https://raw.githubusercontent.com/xrmb/betterweather/main/maps-sidebar.user.js
 // @downloadURL  https://raw.githubusercontent.com/xrmb/betterweather/main/maps-sidebar.user.js
 // @match        https://weather.com/weather/radar/interactive/*
@@ -17,8 +17,8 @@
     const SIDEBAR_ID = 'weather-classic-sidebar';
     const TOOLBAR_SEL = '[role="toolbar"][aria-label="Map layer selector"]';
 
-    const classicMaps = ['radar', 'clouds', 'temperatures', 'feelsLike', 'dewPoint', 'precipPast24', 'snowPast24', 'windSpeed', 'uvIndex', 'drivingDifficulty', 'satVis', 'satIR', 'satWV'];
-    const imgname = { temperatures: 'temps', dewPoint: 'dewpoint', satVis: 'satgoes16FullDiskVis', satIR: 'satgoes16FullDiskIR', satWV: 'satgoes16FullDiskWV' };
+    const classicMaps = ['radar', 'clouds', 'temperatures', 'feelsLike', 'dewPoint', 'precipPast24', 'snowPast24', 'windSpeed'];
+    const imgname = { temperatures: 'temps', dewPoint: 'dewpoint' };
     const labelToMap = {
         'High-Res 6-Hr Radar': 'radar',
         'Long Range 24-Hr Radar': 'radar',
@@ -29,12 +29,7 @@
         'Dew Point': 'dewPoint',
         'Past 24-Hour Precipitation': 'precipPast24',
         'Past 24-Hour Snowfall': 'snowPast24',
-        'Wind Speed': 'windSpeed',
-        'UV Index': 'uvIndex',
-        'Driving Difficulty': 'drivingDifficulty',
-        'Clouds (Visible Satellite)': 'satVis',
-        'Clouds (Infrared Satellite)': 'satIR',
-        'Water Vapor Satellite': 'satWV'
+        'Wind Speed': 'windSpeed'
     };
 
     let iv = 0;
